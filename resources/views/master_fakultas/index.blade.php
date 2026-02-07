@@ -23,6 +23,12 @@
     </div>
 </div>
 
+<div class="modal modal-default fade" id="formModalEdit">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content" style="background-color: #ffffff"></div>
+    </div>
+</div>
+
 @endsection
 
 @section('js')
@@ -80,7 +86,54 @@
                 if (r.success) {
                     $('#formModalAdd').modal('hide');
                     alert('Data berhasil disimpan');
-                    // view_data();
+                    view_data();
+                } else {
+                    alert(r.message);
+                }
+            })
+            .fail(function (x) {
+                alert(x.status + ' - ' + x.statusText);
+            })
+            .always(function () {
+                $(form).find('button[type=submit]').prop('disabled', false);
+            });
+    });
+
+    // AJAX EDIT
+
+    $(document).on('click', '[data-act=item_edit]', function (e) {
+        e.preventDefault();
+
+        var kode = $(this).data('kode');
+
+        $.get("{{ route('fakultas.edit') }}", { kode: kode })
+            .done(function (r) {
+                if (r.success) {
+                    $('#formModalEdit .modal-content').html(r.html);
+                    $('#formModalEdit').modal('show');
+                } else {
+                    alert(r.message);
+                }
+            })
+            .fail(function (x) {
+                alert(x.status + ' - ' + x.statusText);
+            });
+    });
+
+    // AJAX EDIT
+
+    $(document).on('submit', '#fakultas_update', function (e) {
+        e.preventDefault();
+
+        var form = this;
+        $(form).find('button[type=submit]').prop('disabled', true);
+
+        $.post($(form).attr('action'), $(form).serialize())
+            .done(function (r) {
+                if (r.success) {
+                    $('#formModalEdit').modal('hide');
+                    alert('Data berhasil diupdate');
+                    view_data();
                 } else {
                     alert(r.message);
                 }

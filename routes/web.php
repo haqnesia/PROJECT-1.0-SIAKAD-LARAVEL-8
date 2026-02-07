@@ -35,8 +35,12 @@ Route::middleware(['auth'])->prefix('fakultas')->as('fakultas.')->group(function
 
     Route::get('/', [MasterFakultasController::class, 'index'])->name('index');
     Route::get('/data', [MasterFakultasController::class, 'data'])->name('data');
+
     Route::get('/add', [MasterFakultasController::class, 'add'])->name('add');
     Route::post('/save', [MasterFakultasController::class, 'save'])->name('save');
+
+    Route::get('/edit', [MasterFakultasController::class, 'edit'])->name('edit');
+    Route::post('/update', [MasterFakultasController::class, 'update'])->name('update');
 
 });
 

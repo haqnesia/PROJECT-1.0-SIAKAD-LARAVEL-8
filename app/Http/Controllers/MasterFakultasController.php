@@ -125,5 +125,68 @@ class MasterFakultasController extends Controller
 
     }
 
+    # FUNGSI EDIT
+
+    public function edit(Request $r){
+
+        $result = array('success'=>false);
+
+        try {
+ 
+            $kode           = $r->get('kode');
+            $data           = MasterFakultas::findOrFail($kode);
+            
+        } catch (\Exception $e) {
+            $result['message'] = $e->getMessage();	
+            return response()->json($result);
+        }
+
+        $result['success']  = true;
+        $result['html']     = html_normalize(view('master_fakultas.modal_edit',compact('data'))->render());
+
+        return response()->json($result);
+
+    }
+
+    # FUNGSI UPDATE
+
+    public function update(Request $r){
+
+        $result = array('success'=>false);
+
+        try {
+
+            # VALIADASI
+
+            $r->validate([
+                'kode_edit' => 'required',
+                'nama_edit' => 'required'
+            ]);
+
+            $kode   = $r->get('kode_edit');
+            $data   = MasterFakultas::findOrFail($kode);
+
+            # PROSES UPDATE
+
+            $data->fak_nama         = $r->nama_edit;
+
+            $data->updated_kode     = $this->UsersID;
+            $data->updated_nama     = $this->UsersName;
+            $data->updated_ip       = $r->ip();
+
+            $data->save();
+
+        } catch (\Exception $e) {
+            $result['message'] = $e->getMessage();	
+            return response()->json($result);
+        }
+
+        $result['success']  = true;
+        $result['html']     = html_normalize(view('master_fakultas.modal_edit',compact('data'))->render());
+
+        return response()->json($result);
+
+    }
+
 
 }
