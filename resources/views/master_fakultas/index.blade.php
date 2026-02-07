@@ -146,6 +146,57 @@
             });
     });
 
+    // AJAX AKTIF
+
+    $(document).on('click', '[data-act=item_aktif]', function (e) {
+        e.preventDefault();
+
+        if (!confirm('Yakin ingin mengaktifkan data ini?')) return;
+
+        var kode = $(this).data('kode');
+
+        $.post("{{ route('fakultas.aktif') }}", {
+            _token: "{{ csrf_token() }}",
+            kode: kode
+        })
+        .done(function (r) {
+            if (r.success) {
+                alert('Data berhasil diaktifkan');
+                view_data();
+            } else {
+                alert(r.message);
+            }
+        })
+        .fail(function (x) {
+            alert(x.status + ' - ' + x.statusText);
+        });
+    });
+
+    // AJAX NON AKTIF
+
+    $(document).on('click', '[data-act=item_nonaktif]', function (e) {
+        e.preventDefault();
+
+        if (!confirm('Yakin ingin menonaktifkan data ini?')) return;
+
+        var kode = $(this).data('kode');
+
+        $.post("{{ route('fakultas.nonaktif') }}", {
+            _token: "{{ csrf_token() }}",
+            kode: kode
+        })
+        .done(function (r) {
+            if (r.success) {
+                alert('Data berhasil dinonaktifkan');
+                view_data();
+            } else {
+                alert(r.message);
+            }
+        })
+        .fail(function (x) {
+            alert(x.status + ' - ' + x.statusText);
+        });
+    });
 
 </script>
 @endsection

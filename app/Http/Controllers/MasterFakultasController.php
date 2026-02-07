@@ -188,5 +188,77 @@ class MasterFakultasController extends Controller
 
     }
 
+    # FUNGSI AKTIF
+
+    public function aktif(Request $r){
+
+        $result = array('success'=>false);
+
+        try {
+  
+            $r->validate([
+                'kode' => 'required|exists:master_ta_fakultas,fak_kode'
+            ]);
+    
+            $kode       = $r->get('kode');
+            $data       = MasterFakultas::findOrFail($kode);
+    
+            # PROSES
+
+            $data->fak_aktif         = 'Y';
+
+            $data->updated_kode     = $this->UsersID;
+            $data->updated_nama     = $this->UsersName;
+            $data->updated_ip       = $r->ip();
+
+            $data->save();
+
+        } catch (\Exception $e) {
+            $result['message'] = $e->getMessage();	
+            return response()->json($result);
+        }
+
+        $result['success']  = true;
+
+        return response()->json($result);
+
+    }
+
+    # FUNGSI NON AKTIF
+
+    public function nonaktif(Request $r){
+
+        $result = array('success'=>false);
+
+        try {
+  
+            $r->validate([
+                'kode' => 'required|exists:master_ta_fakultas,fak_kode'
+            ]);
+    
+            $kode       = $r->get('kode');
+            $data       = MasterFakultas::findOrFail($kode);
+    
+            # PROSES
+
+            $data->fak_aktif         = 'T';
+
+            $data->updated_kode     = $this->UsersID;
+            $data->updated_nama     = $this->UsersName;
+            $data->updated_ip       = $r->ip();
+
+            $data->save();
+
+        } catch (\Exception $e) {
+            $result['message'] = $e->getMessage();	
+            return response()->json($result);
+        }
+
+        $result['success']  = true;
+
+        return response()->json($result);
+
+    }
+
 
 }

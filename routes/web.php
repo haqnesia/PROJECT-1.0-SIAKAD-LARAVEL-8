@@ -42,6 +42,9 @@ Route::middleware(['auth'])->prefix('fakultas')->as('fakultas.')->group(function
     Route::get('/edit', [MasterFakultasController::class, 'edit'])->name('edit');
     Route::post('/update', [MasterFakultasController::class, 'update'])->name('update');
 
+    Route::post('/aktif', [MasterFakultasController::class, 'aktif'])->name('aktif');
+    Route::post('/nonaktif', [MasterFakultasController::class, 'nonaktif'])->name('nonaktif');
+
 });
 
 # ROUTE MASTER PRODI

@@ -29,7 +29,7 @@
                         @if($row->fak_aktif == 'Y')
                             <span class="badge badge-success">Aktif</span>
                         @else
-                            <span class="badge badge-secondary">Nonaktif</span>
+                            <span class="badge badge-danger">Nonaktif</span>
                         @endif
                     </td>
 
